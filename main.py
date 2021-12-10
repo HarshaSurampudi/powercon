@@ -2,6 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 import pickle
 
@@ -12,6 +13,16 @@ type_encoder = pickle.load(pkl_file)
 pkl_file.close()
 
 loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class FeatureSet(BaseModel):
